@@ -39,8 +39,8 @@ namespace Clpbrd
 	public class SimpleHTTPServer
 	{
 		private Thread _serverThread;
-		private HttpListener _listener;
 		bool IsActive = true;
+		System.Net.Sockets.TcpListener _listener;
 
 		public SimpleHTTPServer()
 		{
@@ -92,8 +92,8 @@ namespace Clpbrd
 		{
 
 
-			System.Net.Sockets.TcpListener s = new System.Net.Sockets.TcpListener(System.Net.IPAddress.Any, 18333);
-			s.Start();
+			_listener = new System.Net.Sockets.TcpListener(System.Net.IPAddress.Any, 18333);
+			_listener.Start();
 
 			while (IsActive)
 			{
@@ -101,7 +101,7 @@ namespace Clpbrd
 				{
 
 
-					using (System.Net.Sockets.TcpClient c = s.AcceptTcpClient())
+					using (System.Net.Sockets.TcpClient c = _listener.AcceptTcpClient())
 					{
 
 						Stream inputStream = c.GetStream();
